@@ -1,7 +1,0 @@
-{
-    "python.testing.pytestArgs": [
-        "PWC_DASHBOARD"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
-}
