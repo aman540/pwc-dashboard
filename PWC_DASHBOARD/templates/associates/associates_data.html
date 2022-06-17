@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %} {% block title %} Associates {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} 
+ {% block content %}
+<style>
+  .container {
+    margin-top: 60px;
+  }
+</style>
+<div class="container">
+<div class="page-header">
+  <div class="page-block">
+    <div class="row align-items-center">
+      <div class="col-md-12">
+        <div class="page-header-title">
+          <h5 class="m-b-10">Associates List</h5>
+        </div>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/"><i class="feather icon-home"></i></a>
+          </li>
+        
+          <li class="breadcrumb-item">
+            <a href="javascript:">Associates</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="row">
+    <div class="col-md-9 ">
+ 
+    </div>
+    <div class="col-md-3 ">
+  {% if request.user.is_manager %}
+  <a  class="label theme-bg2 text-white f-12" href="{% url  'create_associates' project.id%}"
+    >
+      Add Associate
+    </a
+  >
+  {%endif%}
+  </div>
+</div>
+  <hr />
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Designation</th>
+          <th scope="col">Technology</th>
+          {% if request.user.is_manager %}
+          <th>Action</th>
+          {%endif%}
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in e %}
+        <tr>
+          <td>{{i.name}}</td>
+          <td>{{i.email}}</td>
+          <td>{{i.designation}}</td>
+          <td><a
+            href="{% url 'get_technology' i.id%}"
+            class="label theme-bg2 text-white f-12"
+            >view</a
+          ></td>
+          {% if request.user.is_manager %}
+        <td >
+          <a
+          href="{% url 'update_associates' i.id%}"
+          class="label theme-bg2 text-white f-12"
+          >Update</a
+        ><a
+          href="{% url 'associates-delete' i.id %}"
+          class="label theme-bg text-white f-12"
+          >Delete</a
+        >
+         
+        </td>
+        {%endif%}
+      </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>
+  {% endblock content %}
+
+
+
+  {% block javascripts %}{% endblock javascripts %}

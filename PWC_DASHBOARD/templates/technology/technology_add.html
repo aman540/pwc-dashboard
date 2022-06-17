@@ -1,0 +1,72 @@
+{% extends "layouts/base.html" %} {% block title %} Technology Data {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} 
+{% block content %}
+{% load static %}
+  <style>
+      .container{
+          margin-top: 70px;
+      }
+  </style>
+
+
+
+    
+           <div class="container">
+            <div class="page-header">
+               <div class="page-block">
+                 <div class="row align-items-center">
+                   <div class="col-md-12">
+                     <div class="page-header-title">
+                       <h5 class="m-b-10">Add Technology</h5>
+                     </div>
+                     <ul class="breadcrumb">
+                       <li class="breadcrumb-item">
+                         <a href="/"><i class="feather icon-home"></i></a>
+                       </li>
+                     
+                       <li class="breadcrumb-item">
+                         <a href="javascript:">Technology</a>
+                       </li>
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+             </div>
+                       <form class="p-0" id="contact" method="POST">
+                        {% csrf_token%}
+                        <div class="form__group">
+                           <label for="associates_tech"></label>
+                           <input type="text" name='technology' list='technology-list'>
+                           <datalist id='technology-list'>
+                           <select name="" id="technology-list">
+                             
+                             {% for i in technology_data %}
+                             {{i}}
+                             <option value="{{i}}">{{i}}</option>
+                             {% endfor %}   
+                           </select>
+                         </datalist>
+                       </div>
+                       <div style="margin-top: 1rem;">
+                               <button  id="submit" name="submit" type="submit" value="Send" class="btn btn-dark">Submit</button>
+                               <span class="ml-10" id="result"></span>
+                            </div>
+                       </form>
+               
+              </div>
+   
+       
+                       
+                  
+        <!--=================================
+        Clients -->
+        
+        <!--=================================
+        Clients -->
+     </div>
+     {% endblock content %}
+
+     {% block javascripts %}{% endblock javascripts %}
+  

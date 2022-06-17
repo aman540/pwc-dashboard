@@ -1,0 +1,67 @@
+{% extends "layouts/base.html" %} {% block title %} Manager List {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}  {% block content %}
+<style>
+  .container {
+    margin-top: 50px;
+  }
+</style>
+
+<div class="container">
+  <div class="page-header">
+    <div class="page-block">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <div class="page-header-title">
+            <h5 class="m-b-10">Manager List</h5>
+          </div>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/"><i class="feather icon-home"></i></a>
+            </li>
+            
+            <li class="breadcrumb-item">
+              <a href="javascript:">Manager</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <div>
+    <!-- <h3>Existing Managers</h3> -->
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">User Name</th>
+          <th scope="col">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in object_list %}
+        <tr>{% if i.user.name %}
+          <td>{{i.user.name}}</td>
+          {%else%}
+          <td><small style="color: red;"> *update your profile</small></td>
+          {% endif %}
+          <td>{% if i.user.name %}
+            <a href="{% url 'manager-detail' i.id%}">{{i.user.username}}</a>
+            {%else%}
+            <a href="{% url 'manager-detail' i.id%}"><small style="color: red;">*Update</small></a>
+            {% endif %}
+          </td>
+
+          <td>{{i.user.email}}</td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>
+  {% endblock content %}
+</div>
+{% block javascripts %}{% endblock javascripts %}

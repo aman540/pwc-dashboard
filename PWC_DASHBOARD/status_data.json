@@ -1,0 +1,18 @@
+[{
+        "model": "project.Status",
+        "fields": {
+            "name": "Green"
+        }
+    }, {
+        "model": "project.Status",
+        "fields": {
+            "name": "Amber"
+        }
+    },
+    {
+        "model": "project.Status",
+        "fields": {
+            "name": "Red"
+        }
+    }
+]

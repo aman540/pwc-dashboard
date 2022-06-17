@@ -1,0 +1,73 @@
+<style>
+  .scroll {
+    height: 400px !important;
+    overflow-y: auto;
+  }
+  .scroll {
+    -ms-overflow-style: none; /* Edge, Internet Explorer */
+    scrollbar-width: none; /* Firefox */
+    overflow-y: scroll;
+  }
+
+  .scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+</style>
+<div class="card Recent-Users">
+  <div class="card-header">
+    <h5>All Projects</h5>
+  </div>
+  <div class="scroll">
+    <div class="card-block px-0 py-3">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <tbody>
+            {% for i in allproject %}
+            <tr class="unread">
+              <td>
+                <img
+                  class="rounded-circle"
+                  style="width: 40px"
+                  src="/static/images/pwc.svg"
+                  alt="activity-user"
+                />
+              </td>
+              <td>
+                <h6 class="mb-1">{{i.title}}</h6>
+                <p class="m-0">{{i.client}}</p>
+              </td>
+              <td>
+                <h6 class="text-muted">
+                  <a href="{% url 'status-update' i.id %}">
+                    {% if i.status.name == none %}
+                    <i class="fas fa-box text-c-yellow f-10 m-r-15"></i>
+                    {% endif%}
+                    {% if i.status.name == "Green" %}
+                    <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
+                    {% endif%} {% if i.status.name == "Amber" %}
+                    <i class="fas fa-circle text-c-amber f-10 m-r-15"></i>
+                    {% endif%} {% if i.status.name == "Red" %}
+                    <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
+                    {% endif%} </a
+                  >{{i.created|date:"M Y"}}
+                </h6>
+              </td>
+              <td>
+                <a
+                  href="{% url 'project-update' i.id %}"
+                  class="label theme-bg2 text-white f-12"
+                  >Update</a
+                ><a
+                  href="{% url 'project-delete' i.id %}"
+                  class="label theme-bg text-white f-12"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

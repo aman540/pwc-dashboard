@@ -1,0 +1,79 @@
+{% extends "layouts/base.html" %} {% block title %} Project Detail {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} 
+{% block content %}
+<style>
+    .container {
+      margin-top: 60px;
+    }
+  </style>
+  <div class="container">
+    <ul class="list-group" style="color: #182443">
+      <li
+        class="list-group-item active"
+        style="border-color: #4fc98d; background-color:#3f4d67"
+      >
+        This is the detail of <b>{{project.title}}</b>
+      </li>
+  
+      <li class="list-group-item">Title: {{project.title}}</li>
+      <li class="list-group-item">Client: {{project.client}}</li>
+      <li class="list-group-item">
+        Project Start Date: {{project.from_duration}}
+      </li>
+      <li class="list-group-item">Project End Date: {{project.to_duration}}</li>
+      <li class="list-group-item">Status: {{project.status}}</li>
+      <li class="list-group-item">
+        Project Phases:
+        <table class="table table-bordered" style="color: #b52e2e">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Phase</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in phasedurationofproject %}
+            <tr>
+              <th scope="col">{{ forloop.counter }}</th>
+              <th scope="col">{{i.phase}}</th>
+              <th scope="col">{{i.from_date}}</th>
+              <th scope="col">{{i.to_date}}</th>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </li>
+      <li class="list-group-item">
+        Associates:
+        <table class="table table-bordered" style="color: #b52e2e">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Designation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in associates %}
+            <tr>
+              <th scope="col">{{ forloop.counter }}</th>
+              <th scope="col">{{i.name}}</th>
+              <th scope="col">{{i.email}}</th>
+              <th scope="col">{{i.designation}}</th>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </li>
+      <li class="list-group-item">Manager: {{project.manager}}</li>
+      <li class="list-group-item">Organisation: {{project.organistation}}</li>
+      <li class="list-group-item">Description: {{project.description}}</li>
+      <li class="list-group-item">Created Date: {{project.created}}</li>
+    </ul>
+  </div>
+{% endblock content %}

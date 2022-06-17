@@ -1,0 +1,71 @@
+{% extends "layouts/base.html" %} {% block title %} Manager Detail{% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %}
+
+<style>
+  .container {
+    margin-top: 60px;
+  }
+</style>
+<div class="container">
+  <div class="page-header">
+    <div class="page-block">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <div class="page-header-title">
+            <h5 class="m-b-10">Manager Details</h5>
+          </div>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/"><i class="feather icon-home"></i></a>
+            </li>
+            
+            <li class="breadcrumb-item">
+              <a href="javascript:">Manager</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <ul class="list-group">
+    <li
+      class="list-group-item active"
+      style="border-color: #4fc98d; background-color: #3f4d67"
+    >
+      This is the detail of <b>{{manager.user.username}}</b>
+    </li>
+    <li class="list-group-item">Name: {{manager.user.name}}</li>
+    <li class="list-group-item">Email: {{manager.user.email}}</li>
+    <li class="list-group-item">Created: {{manager.created}}</li>
+    <li class="list-group-item">Organization: {{manager.organistation}}</li>
+  </ul>
+
+  <div style="margin-top: 12px">
+    {% if c %}
+
+    <a href="{% url 'update_user'%}"
+      ><button
+        type="button"
+        class="btn btn-success"
+       
+      >
+        Update
+      </button></a
+    >
+   
+    <a href="{% url 'manager-delete' manager.id %}"
+      ><button
+        type="button"
+        class="btn btn-danger"
+        
+      >
+        Delete
+      </button></a
+    >
+  </div>
+</div>
+{% endif %} {%endblock%}
+{% block javascripts %}{% endblock javascripts %}

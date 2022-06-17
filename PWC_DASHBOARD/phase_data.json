@@ -1,0 +1,48 @@
+[{
+        "model": "project.Phase",
+        "fields": {
+            "name": "Initiation"
+        }
+    }, {
+        "model": "project.Phase",
+        "fields": {
+            "name": "Requirements Gathering"
+        }
+    },
+    {
+        "model": "project.Phase",
+        "fields": {
+            "name": "Devlopment"
+        }
+    },
+    {
+        "model": "project.Phase",
+        "fields": {
+            "name": "Testing"
+        }
+    },
+    {
+        "model": "project.Phase",
+        "fields": {
+            "name": "UAT"
+        }
+    },
+    {
+        "model": "project.Phase",
+        "fields": {
+            "name": "DR"
+        }
+    }, {
+        "model": "project.Phase",
+        "fields": {
+            "name": "Document upload"
+        }
+    },
+
+    {
+        "model": "project.Phase",
+        "fields": {
+            "name": "Go Live"
+        }
+    }
+]

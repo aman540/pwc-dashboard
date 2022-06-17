@@ -1,0 +1,91 @@
+{% extends "layouts/base.html" %} {% block title %} Technology Data {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}  {% block content %}
+
+<style>
+  .container {
+    margin-top: 60px;
+  }
+</style>
+
+<div class="container">
+  <div class="page-header">
+    <div class="page-block">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <div class="page-header-title">
+            <h5 class="m-b-10">Technology List</h5>
+          </div>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/"><i class="feather icon-home"></i></a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="javascript:">Technology</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {% if request.user.is_manager %}
+
+    <div class="form-group col-lg-4">
+      <a class="label theme-bg text-white f-12" href="{% url 'add_technology' associates.id%}">
+          Add Technology
+       </a>
+    </div>
+    <div class="form-group col-lg-6">
+      <a class="label theme-bg2 text-white f-12" href="{% url  'create_associates' associates.project.id%}">
+          Add Associated
+       </a
+      >
+    </div>
+    {%endif%}
+  </div>
+
+
+    <ul class="list-group" style="color: #4e984f">
+      <table>
+        <tr>
+          <td>
+            <li
+              class="list-group-item active"
+              style="
+                border-color: #4fc98d;
+                background-color: #3f4d67;
+                max-width: 526px;
+              "
+            >
+              This is the Technology of :- <b>{{associates}} </b>
+            </li>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+
+      {% for i in e %}
+      <table>
+        <tr>
+          <td>
+            <li class="list-group-item" style="max-width: 526px">
+              {{i.technology}}
+              <small>
+              {% if request.user.is_manager %}
+              <a class="label theme-bg2 text-white f-12" href="{% url 'technology-delete' i.id %}"
+              >delete</a></small>
+            {%endif%}
+            </li>
+          </td>
+
+        </tr>
+      </table>
+      {% endfor%}
+    </ul>
+  </div>
+
+  {%endblock content%}
+  {% block javascripts %}{% endblock javascripts %}

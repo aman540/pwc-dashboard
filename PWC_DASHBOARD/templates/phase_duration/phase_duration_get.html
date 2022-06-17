@@ -1,0 +1,197 @@
+{% extends "layouts/base.html" %} {% block title %} Phase Data {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} 
+{% block content %}
+<style>
+  .room-container {
+    display: grid;
+    /* grid-template-columns: 1fr 1fr; */
+    margin-top: 150px;
+   
+  }
+  
+  .table-responsive-stack tr {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  
+  
+  .table-responsive-stack td,
+  .table-responsive-stack th {
+     display:block;
+     /*      
+     flex-grow | flex-shrink | flex-basis   */
+     -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+  }
+  
+  .table-responsive-stack .table-responsive-stack-thead {
+     font-weight: bold;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .table-responsive-stack tr {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        border-bottom: 3px solid #ccc;
+        display:block;
+        
+      }
+      /*  IE9 FIX   */
+      .table-responsive-stack td {
+        float: left\9;
+        width:100%;
+      }
+      .room-container {
+        margin-top: 120px;
+      }
+    }
+  </style>
+  
+
+ 
+  <div class="room-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-sm-12 mb-3">
+        <h3>Phase & Duration </h3>
+          </div>
+      <div class="col-lg-4 col-sm-12 mb-3">
+    {% if request.user.is_manager %}
+    <a href="{% url 'add_phase_duration' project.id %}"
+      ><button
+        name="submit"
+        type="submit"
+        value="Submit"
+        class="btn btn-outline-secondary"
+        data-wow-duration="1.0s"
+      >
+      Add Project Phase
+      </button></a
+    >
+   
+    {%endif%}
+      </div>
+      
+    </div>
+    <table class="table table-striped table-responsive-stack" id="tableOne">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Phase Start Date</th>
+          <th>Phase End Date</th>
+          <th style="color: rgb(216, 20, 20)">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in phase_duration %}
+        <tr>
+          <td class="p-2 p-sm-2" scope="row">{{i.phase}}</th>
+          <td class="p-2 p-sm-2 ml-sm-1">{{i.from_date}}</td>
+          <td class="p-2 p-sm-2 ml-sm-1">{{i.to_date}}</td>
+          
+    
+          <td class="p-2 p-sm-2">
+            <a  class="label theme-bg2 text-white f-12" href="{%url 'update_phase_duration' i.id %}"
+              >Update</a
+            >|
+            <a  class="label theme-bg text-white f-12" href="{% url 'delete_phase_duration' i.id%}"
+              >Delete</a>
+          </td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+
+{% block js %}
+
+<script>
+
+  $(document).ready(function() {
+
+   
+    // inspired by http://jsfiddle.net/arunpjohny/564Lxosz/1/
+    $('.table-responsive-stack').each(function (i) {
+       var id = $(this).attr('id');
+       //alert(id);
+       $(this).find("th").each(function(i) {
+          $('#'+id + ' td:nth-child(' + (i + 1) + ')').prepend('<span class="table-responsive-stack-thead">'+             $(this).text() + ':</span> ');
+          $('.table-responsive-stack-thead').hide();
+          
+       });
+       
+ 
+       
+    });
+ 
+    
+    
+    
+    
+ $( '.table-responsive-stack' ).each(function() {
+   var thCount = $(this).find("th").length; 
+    var rowGrow = 100 / thCount + '%';
+    //console.log(rowGrow);
+    $(this).find("th, td").css('flex-basis', rowGrow);   
+ });
+    
+    
+    
+    
+ function flexTable(){
+    if ($(window).width() < 768) {
+       
+    $(".table-responsive-stack").each(function (i) {
+       $(this).find(".table-responsive-stack-thead").show();
+       $(this).find('thead').hide();
+    });
+       
+     
+    // window is less than 768px   
+    } else {
+       
+       
+    $(".table-responsive-stack").each(function (i) {
+       $(this).find(".table-responsive-stack-thead").hide();
+       $(this).find('thead').show();
+    });
+       
+       
+ 
+    }
+ // flextable   
+ }      
+  
+ flexTable();
+    
+ window.onresize = function(event) {
+     flexTable();
+ };
+    
+    
+    
+    
+ 
+   
+ // document ready  
+ });
+ 
+ 
+ 
+ 
+</script>
+{% endblock js %}

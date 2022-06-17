@@ -1,0 +1,122 @@
+{% extends "layouts/base.html" %} {% block title %} Project Update {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} 
+{% block content %}
+  <style>
+      .container{
+          margin-top: 60px;
+      }
+      #id_title {
+         width: 300px;
+         height: 45px;
+         border-color:#1de9b6;
+     }
+     #id_client {
+      width: 300px;
+      height: 45px;
+      border-color:#1de9b6;
+  }
+  #id_description {
+   width: 300px;
+   height: 100px;
+   border-color:#1de9b6;
+   margin-top:20px;
+}
+#id_from_duration {
+   width: 300px;
+   height: 45px;
+   border-color:#1de9b6;
+}
+#id_to_duration {
+   width: 300px;
+   height: 45px;
+   border-color:#1de9b6;
+}
+#id_status {
+   width: 300px;
+   height: 45px;
+   border-color:#1de9b6;
+}
+  </style>
+
+
+
+           <div class="container">
+            <div class="page-header">
+               <div class="page-block">
+                 <div class="row align-items-center">
+                   <div class="col-md-12">
+                     <div class="page-header-title">
+                       <h5 class="m-b-10"> Update Project</h5>
+                     </div>
+                     <ul class="breadcrumb">
+                       <li class="breadcrumb-item">
+                         <a href="/"><i class="feather icon-home"></i></a>
+                       </li>
+                       
+                       <li class="breadcrumb-item">
+                         <a href="javascript:">  Projects </a>
+                       </li>
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <hr>
+              <!-- <div class="row justify-content-between"> -->
+                
+                    
+                       <h5>Update the project {{project.title}}</h5>
+                       <form class="p-0" id="contact" method="POST">
+                        {% csrf_token%}
+                        <div class="row">
+                           <!--[ daily sales section ] start-->
+                                    <div class="col-md-4 col-xl-3">
+                                       <div class="form-group">
+                                          <label ><b>Title</b></label>
+                                          {{form.title}}
+                                       </div>
+                                
+                                    <div class="col-md-4 col-xl-4">
+                                        <div class="form-group" >
+                                           <label ><b>Client</b></label>  
+                                           {{form.client}}
+                                        </div>
+                                   </div>
+                                   <div class="col-md-4 col-xl-6">
+                                     <div class="form-group">
+                                        <label ><b>Description</b></label>
+                                        {{form.description}}
+                                     </div>
+                                     </div>
+                                     <div class="col-md-6 col-xl-12">
+                                        <div class="form-group">
+                                           <label ><b>Project Start Date</b></label>
+                                           {{form.from_duration}}
+                                        </div>
+                                        </div>
+                                        <div class="col-md-6 col-xl-12">
+                                        <div class="form-group">
+                                          <label><b>Project End Date</b></label>
+                                          
+                                          {{form.to_duration}}
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="form-group">
+                                           <label ><b>Status</b></label>
+                                           
+                                           {{form.status}}
+                                        </div>
+                                  </div>
+                                 
+                                   
+                                   <button  name="submit" type="submit" value="Submit" class="btn btn-outline-success" data-wow-duration="1.0s">Update</button>
+                                 
+                             
+                          
+                       </form>
+
+     </div>
+     {% endblock content %}

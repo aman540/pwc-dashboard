@@ -1,0 +1,76 @@
+<style>
+    .scroll {
+      height: 400px !important;
+      overflow-y: auto;
+    }
+    .scroll {
+      -ms-overflow-style: none; /* Edge, Internet Explorer */
+      scrollbar-width: none; /* Firefox */
+      overflow-y: scroll;
+    }
+  
+    .scroll::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+  </style>
+  <div class="card Recent-Users">
+    <div class="card-header">
+      <h5>All Manager</h5>
+    </div>
+    <div class="scroll">
+      <div class="card-block px-0 py-3">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <tbody>
+              {% for i in allmanager %}
+              <tr class="unread">
+                <td>
+                  <img
+                    class="rounded-circle"
+                    style="width: 40px"
+                    src="/static/images/pwc.svg"
+                    alt="activity-user"
+                  />
+                </td>
+                <td>
+                    
+                   
+                    
+                    {% if i.user.name %}
+                  <h6 class="mb-1">{{i.user.name}}</h6>
+                  {%else%}
+                  <h7 class="mb-1" style="color: red;"><small>not updated</small> </h7>
+                    {% endif %}
+                  <p class="m-0">{{i.user.email}}</p>
+                </td>
+                <td>
+                  <h6 class="text-muted">
+                   {{i.created|date:"M d, Y"}}
+                  </h6>
+                </td>
+                <td>
+                  <a
+                    href="{% url 'manager-detail' i.id%}"
+                    class="label theme-bg2 text-white f-12"
+                    >Detail</a
+                  >
+                  
+                  {% if user.is_organisor %}
+                    
+                 
+                    <a
+                    href="{% url 'manager-delete' i.id %}"
+                    class="label theme-bg text-white f-12"
+                    >Delete</a
+                  >
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

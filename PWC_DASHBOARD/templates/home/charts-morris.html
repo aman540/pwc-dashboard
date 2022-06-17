@@ -1,0 +1,242 @@
+{% extends "layouts/base.html" %} {% block title %} Charts Morris {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+<link
+  rel="stylesheet"
+  href="/static/assets/plugins/chart-morris/css/morris.css"
+/>
+
+{% endblock stylesheets %} {% block content %}
+
+<div class="pcoded-content">
+  <div class="pcoded-inner-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Analytical  Charts </h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/"><i class="feather icon-home"></i></a>
+              </li>
+            
+              <li class="breadcrumb-item">
+                <a href="javascript:">Chart</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+    <div class="main-body">
+      <div class="page-wrapper">
+        <!-- [ Main Content ] start -->
+        <div class="row">
+          <!-- [ Morris Chart ] start -->
+          <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Project - Associates</h5>
+              </div>
+              <div class="card-block">
+                <div id="morris-bar-chart" style="height: 300px"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Project - Duration</h5>
+              </div>
+              <div class="card-block">
+                <div id="morris-bar-stacked-chart" style="height: 300px"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Manger-Project</h5>
+              </div>
+              <div class="card-block">
+                <div id="morris-area-chart" style="height: 300px"></div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Area [ Smooth ] Chart</h5>
+              </div>
+              <div class="card-block">
+                <div id="morris-area-curved-chart" style="height: 300px"></div>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Line [ Angle ] Chart</h5>
+              </div>
+              <div class="card-block">
+                <div
+                  id="morris-line-chart"
+                  class="ChartShadow"
+                  style="height: 300px"
+                ></div>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Line [ Smooth ] Chart</h5>
+              </div>
+              <div class="card-block">
+                <div
+                  id="morris-line-smooth-chart"
+                  class="ChartShadow"
+                  style="height: 300px"
+                ></div>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-xl-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Status of Projects</h5>
+              </div>
+              <div class="card-block">
+                <div id="morris-donut-chart" style="height: 300px"></div>
+              </div>
+            </div>
+          </div>
+          <!-- [ Morris Chart ] end -->
+        </div>
+        <!-- [ Main Content ] end -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
+<script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
+<script src="/static/assets/js/pages/chart-morris-custom.js"></script>
+<script>
+  var graph = Morris.Donut({
+       element: 'morris-donut-chart',
+       data: [{
+               value: {{green_status}},
+               label: 'Green'
+           },
+           {
+               value: '{{none_status}}',
+               label: 'None'
+           },
+           {
+               value: '{{amber_status}}',
+               label: 'Amber'
+           },
+           {
+               value: '{{red_status}}',
+               label: 'Red'
+           }
+       ],
+       colors: [
+           '#1de9b6',
+           '#f0f8ff',
+           '#007bff',
+           '#ca0c0c',
+       ],
+       resize: true,
+       formatter: function(x) {
+           return "Project : " + x
+       }
+   });
+   </script>
+   <script>
+    Morris.Bar({
+        element: 'morris-bar-chart',
+        data: [
+          {% for i, j in t_project%}
+          {
+                y: '{{i}}',
+                a:{{j}},
+            },
+            {%endfor%}
+            
+        ],
+       
+       
+       
+        xkey: 'y',
+        barSizeRatio: 0.70,
+        barGap: 1,
+        resize: true,
+        responsive:true,
+        ykeys: 'a',
+        labels: ['Associates'],
+        barColors: ["0-#1de9b6-#1dc4e9"]
+    });
+   </script>
+      <script>
+        Morris.Bar({
+            element: 'morris-bar-stacked-chart',
+            data: [
+              {% for i, j in t_duration%}
+              {
+                    y: '{{i}}',
+                    a:{{j}},
+                },
+                {%endfor%}
+                
+            ],
+           
+           
+           
+            xkey: 'y',
+            barSizeRatio: 0.90,
+            barGap: 1,
+            resize: true,
+            responsive:true,
+            ykeys: 'a',
+            labels: ['Duration in days'],
+            barColors: ["0-#1de9b6-#1dc4e9"]
+        });
+       </script>
+<script>
+   Morris.Bar({
+        element: 'morris-area-chart',
+        data: [{% for i, j in t_manager_project %}
+          {
+                y: '{{i}}',
+                a:{{j}},
+            },
+            {%endfor%}
+            
+        ],
+        xkey: 'y',
+        stacked: true,
+        barSizeRatio: 0.70,
+        barGap: 3,
+        resize: true,
+        responsive:true,
+        ykeys: ['a'],
+        labels: ['Projects'],
+        barColors: ["0-#1de9b6-#1dc4e9", "0-#899FD4-#A389D4", "#04a9f5"]
+    });
+</script>
+
+{% endblock javascripts %}
