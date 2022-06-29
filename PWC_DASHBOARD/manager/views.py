@@ -62,11 +62,9 @@ class ManagerCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
     form_class = ManagerForm
 
     def get_success_url(self):
-
         return reverse("manager-list")
 
     def form_valid(self, form):
-        print("a")
         user = form.save(commit=False)
         user.is_manager = True
         user.is_organisor = False

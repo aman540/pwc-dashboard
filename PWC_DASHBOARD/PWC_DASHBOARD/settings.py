@@ -137,5 +137,5 @@ EMAIL_HOST_PASSWORD = 'qxrtlaczcwosolqv'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "project.User"
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'

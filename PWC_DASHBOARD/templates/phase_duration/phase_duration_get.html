@@ -7,59 +7,39 @@
   .room-container {
     display: grid;
     /* grid-template-columns: 1fr 1fr; */
-    margin-top: 150px;
+    margin-top: 60px;
    
   }
   
-  .table-responsive-stack tr {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-  }
-  
-  
-  .table-responsive-stack td,
-  .table-responsive-stack th {
-     display:block;
-     /*      
-     flex-grow | flex-shrink | flex-basis   */
-     -ms-flex: 1 1 auto;
-      flex: 1 1 auto;
-  }
-  
-  .table-responsive-stack .table-responsive-stack-thead {
-     font-weight: bold;
-    }
-    
-    @media screen and (max-width: 768px) {
-      .table-responsive-stack tr {
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        border-bottom: 3px solid #ccc;
-        display:block;
-        
-      }
-      /*  IE9 FIX   */
-      .table-responsive-stack td {
-        float: left\9;
-        width:100%;
-      }
-      .room-container {
-        margin-top: 120px;
-      }
-    }
+
   </style>
   
 
  
   <div class="room-container">
+   
   <div class="container">
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Phase List</h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/"><i class="feather icon-home"></i></a>
+              </li>
+              
+              <li class="breadcrumb-item">
+                <a href="javascript:">Projects</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
     <div class="row">
       <div class="col-lg-8 col-sm-12 mb-3">
         <h3>Phase & Duration </h3>
@@ -94,12 +74,11 @@
       <tbody>
         {% for i in phase_duration %}
         <tr>
-          <td class="p-2 p-sm-2" scope="row">{{i.phase}}</th>
-          <td class="p-2 p-sm-2 ml-sm-1">{{i.from_date}}</td>
-          <td class="p-2 p-sm-2 ml-sm-1">{{i.to_date}}</td>
+          <td >{{i.phase}}</th>
+          <td >{{i.from_date}}</td>
+          <td >{{i.to_date}}</td>
           
-    
-          <td class="p-2 p-sm-2">
+          <td >
             <a  class="label theme-bg2 text-white f-12" href="{%url 'update_phase_duration' i.id %}"
               >Update</a
             >|

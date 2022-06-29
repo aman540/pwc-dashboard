@@ -1,5 +1,5 @@
 from datetime import date
-from multiprocessing import managers
+from multiprocessing import context, managers
 from pydoc import cli
 from django.shortcuts import render, redirect, reverse
 from project.models import*
@@ -10,13 +10,21 @@ from django.views import generic
 from django.views.generic import TemplateView, DeleteView, ListView, UpdateView
 from django.http.response import HttpResponse
 from django.contrib.auth.decorators import login_required
-import datetime
+from datetime import datetime, timedelta
 
 
 import json
 
 from django.utils.safestring import mark_safe
 date_format = "%m/%d/%Y"
+
+
+class SignupView(generic.CreateView):
+    template_name = "registration/signup.html"
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self):
+        return reverse("login")
 
 
 @ login_required(login_url='login')
@@ -123,7 +131,7 @@ def create_project(request):
 
     # manager = request.user
     my_p = Manager.objects.get(user=request.user)
-    form = Projectforms()
+    # form = Projectforms()
     if request.method == "POST":
         title = request.POST.get("title")
         client = request.POST.get("client")
@@ -144,7 +152,7 @@ def create_project(request):
             title=title, client=client, description=description, from_duration=from_duration, to_duration=to_duration)
         return redirect('create_associates', project.id)
 
-    return render(request, 'home/projectcreate.html', {'form': form})
+    return render(request, 'home/projectcreate.html')
 
 
 class ProjectListview(LoginRequiredMixin, ListView):
@@ -188,8 +196,9 @@ def create_associates(request, pk):
                 'name'),
             email=request.POST.get('email'),
             designation=request.POST.get('designation'))
-        associates = Associates.objects.get(name=nameget, email=emailget)
-        return redirect('add_technology', pk=associates.id)
+        # associates = Associates.objects.get(
+        #     name=nameget, email=emailget)
+        return redirect('get_associates', pk=project.id)
 
     context = {}
     return render(request, 'associates/associates_create.html', context)

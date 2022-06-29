@@ -32,6 +32,19 @@ class Manager(models.Model):
         return self.user.email
 
 
+class Status(models.Model):
+    # imformation,test,dev,pwd,aws,.....
+    name = models.CharField(max_length=50)
+    # organistation=models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+def get_status():
+    return Status.objects.get(name="Green")
+
+
 class Project(models.Model):
 
     title = models.CharField(max_length=200, null=False, blank=True)
@@ -44,8 +57,9 @@ class Project(models.Model):
     organistation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     manager = models.ForeignKey(Manager, on_delete=models.CASCADE)
     status = models.ForeignKey(
-        "Status", related_name="projects", on_delete=models.SET_NULL, null=True, blank=True)
-
+        "Status", related_name="projects", on_delete=models.SET_NULL, null=True, blank=True, default=get_status)
+    test = models.CharField(max_length=100, null=True,
+                            blank=True, default="Green")
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateField(auto_now=True, null=True)
 
@@ -70,15 +84,6 @@ class Associates(models.Model):
 
 class Phase(models.Model):
     name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
-class Status(models.Model):
-    # imformation,test,dev,pwd,aws,.....
-    name = models.CharField(max_length=50)
-    # organistation=models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

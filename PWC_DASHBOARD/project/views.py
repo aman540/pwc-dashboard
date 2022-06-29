@@ -11,20 +11,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-
-
-
-class SignupView(generic.CreateView):
-    template_name = "registration/signup.html"
-    form_class = CustomUserCreationForm
-
-    def get_success_url(self):
-        return reverse("login")
-
-
-
-
-
 # class ProjectCreateView(OrganiserAndLoginRequiredMixin, CreateView):
 #     template_name = "projectcreate.html"
 #     form_class = Projectforms
@@ -32,24 +18,15 @@ class SignupView(generic.CreateView):
 #     def get_success_url(self):
 #         return reverse("home")
 
-    # def form_valid(self, form):
-    #     send_mail(
-    #         subject="A lead has been created",
-    #         message="Go to site to see the new lead",
-    #         from_email="test@test.com",
-    #         recipient_list=['test2@test.com,']
+# def form_valid(self, form):
+#     send_mail(
+#         subject="A lead has been created",
+#         message="Go to site to see the new lead",
+#         from_email="test@test.com",
+#         recipient_list=['test2@test.com,']
 
-    #     )
-    # return super(ProjectCreateView, self).form_valid(form)
-
-
-
-
-
-
-
-
-
+#     )
+# return super(ProjectCreateView, self).form_valid(form)
 
 
 # @login_required(login_url='login')
@@ -74,17 +51,7 @@ class SignupView(generic.CreateView):
 # technology
 
 
-
-
-
-
 # phase
 
 
 # Associates
-
-
-
-
-
-

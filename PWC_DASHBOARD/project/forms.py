@@ -19,22 +19,23 @@ class CustomUserCreationForm(UserCreationForm):
 class ProjectUpdateforms(ModelForm):
     class Meta:
         model = Project
-        fields = ('title','client','description','from_duration','to_duration', 'status',)
-
-        widgets = {
-            'from_duration': DatePickerInput(),
-            'to_duration': DatePickerInput(),
-        }   
-
-class Projectforms(ModelForm):
-    class Meta:
-        model = Project
-        fields = ('status',)
+        fields = ('title', 'client', 'description',
+                  'from_duration', 'to_duration', 'status',)
 
         widgets = {
             'from_duration': DatePickerInput(),
             'to_duration': DatePickerInput(),
         }
+
+# class Projectforms(ModelForm):
+#     class Meta:
+#         model = Project
+#         fields = ('status',)
+
+#         widgets = {
+#             'from_duration': DatePickerInput(),
+#             'to_duration': DatePickerInput(),
+#         }
 
 
 class ProjectStatusUpdateForm(ModelForm):
