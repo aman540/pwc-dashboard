@@ -36,6 +36,7 @@
              </div>
                        <form class="p-0" id="contact" method="POST">
                         {% csrf_token%}
+                        {{formset}}
                         <div class="form__group">
                            <label for="associates_tech"></label>
                            <input type="text" name='technology' list='technology-list'>

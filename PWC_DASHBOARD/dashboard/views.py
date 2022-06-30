@@ -11,7 +11,7 @@ from django.views.generic import TemplateView, DeleteView, ListView, UpdateView
 from django.http.response import HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
-
+from django.forms import inlineformset_factory
 
 import json
 
@@ -253,7 +253,7 @@ def add_Technology(request, pk):
     manager = Manager.objects.get(user=user)
     associate = Associates.objects.get(id=pk)
     project = Project.objects.get(associates=associate)
-    Techno = Technologyforms()
+    Techno = Technologyforms(initial={'associates': associate})
     technology_data = Technology.objects.all()
     if request.method == "POST":
         technology_name = request.POST.get('technology')
