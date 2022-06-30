@@ -191,14 +191,14 @@ def create_associates(request, pk):
     if request.method == 'POST':
         emailget = request.POST.get('email')
         nameget = request.POST.get('name')
-        Associates.objects.create(
+        new_associate = Associates.objects.create(
             project=project, manager=manager, name=request.POST.get(
                 'name'),
             email=request.POST.get('email'),
             designation=request.POST.get('designation'))
         # associates = Associates.objects.get(
         #     name=nameget, email=emailget)
-        return redirect('get_associates', pk=project.id)
+        return redirect('add_technology', pk=new_associate.id)
 
     context = {}
     return render(request, 'associates/associates_create.html', context)
