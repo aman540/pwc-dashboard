@@ -19,7 +19,7 @@
                  <div class="row align-items-center">
                    <div class="col-md-12">
                      <div class="page-header-title">
-                       <h5 class="m-b-10">Add Technology</h5>
+                       <h3 class="m-b-10">Add Technologies</h3>
                      </div>
                      <ul class="breadcrumb">
                        <li class="breadcrumb-item">
@@ -36,10 +36,9 @@
              </div>
                        <form class="p-0" id="contact" method="POST">
                         {% csrf_token%}
-                        {{formset}}
-                        <div class="form__group">
+                        <div class="form__group " style="margin-bottom: 5px;">
                            <label for="associates_tech"></label>
-                           <input type="text" name='technology' list='technology-list'>
+                           <input class="form-control" type="text" name='technology' list='technology-list'>
                            <datalist id='technology-list'>
                            <select name="" id="technology-list">
                              
@@ -50,6 +49,7 @@
                            </select>
                          </datalist>
                        </div>
+                       <a href="#" id="add-more" class="mt-5">Add More</a>
                        <div style="margin-top: 1rem;">
                                <button  id="submit" name="submit" type="submit" value="Send" class="btn btn-dark">Submit</button>
                                <span class="ml-10" id="result"></span>
@@ -69,5 +69,26 @@
      </div>
      {% endblock content %}
 
-     {% block javascripts %}{% endblock javascripts %}
+     {% block javascripts %}
+     <script>
+
+      function insertAfter(newElement, referenceElement) {
+          referenceElement.parentNode.insertBefore(newElement, referenceElement.nextSibling);
+      }
+
+      let addMore = document.getElementById('add-more');
+      addMore.addEventListener('click', function(e) {
+        let x = document.querySelectorAll(".form__group");
+        let c_e = x[x.length - 1];
+        console.log(x);
+        let y = c_e.cloneNode(true);
+        insertAfter(y, c_e);
+        let inputs = document.querySelectorAll(".form-control");
+        inputs[inputs.length - 1].value = ""
+      })
+
+
+     </script>
+     
+     {% endblock javascripts %}
   

@@ -173,7 +173,7 @@
           {% for i, j in t_project%}
           {
                 y: '{{i}}',
-                a:{{j}},
+                a: {{j}},
             },
             {%endfor%}
             
@@ -188,7 +188,8 @@
         responsive:true,
         ykeys: 'a',
         labels: ['Associates'],
-        barColors: ["0-#1de9b6-#1dc4e9"]
+        barColors: ["0-#1de9b6-#1dc4e9"],
+        xLabelMargin: 0
     });
    </script>
       <script>
@@ -213,7 +214,8 @@
             responsive:true,
             ykeys: 'a',
             labels: ['Duration in days'],
-            barColors: ["0-#1de9b6-#1dc4e9"]
+            barColors: ["0-#1de9b6-#1dc4e9"],
+            xLabelMargin: 0
         });
        </script>
 <script>

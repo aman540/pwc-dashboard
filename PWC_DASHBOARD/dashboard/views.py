@@ -1,4 +1,5 @@
 from datetime import date
+from datetime import datetime
 from multiprocessing import context, managers
 from pydoc import cli
 from django.shortcuts import render, redirect, reverse
@@ -168,6 +169,20 @@ class ProjectListview(LoginRequiredMixin, ListView):
                 organistation=user.manager.organistation, manager__isnull=False).order_by("-created")
             # filter for agent that is logged in
             queryset = queryset.filter(manager__user=user).order_by("-created")
+
+        for project in queryset:
+            today = date.today()
+            p_d = project.to_duration
+            delta = p_d - today
+            print(delta.days)
+            amber = Status.objects.get(name="Amber")
+            red = Status.objects.get(name="Red")
+            if delta.days < 0 and delta.days >= -7:
+                project.status = amber
+                project.save()
+            elif delta.days < -7:
+                project.status = red
+                project.save()
         return queryset
 
 
@@ -253,18 +268,19 @@ def add_Technology(request, pk):
     manager = Manager.objects.get(user=user)
     associate = Associates.objects.get(id=pk)
     project = Project.objects.get(associates=associate)
-    Techno = Technologyforms(initial={'associates': associate})
+    Techno = TechnologyForm(initial={'associates': associate})
     technology_data = Technology.objects.all()
     if request.method == "POST":
-        technology_name = request.POST.get('technology')
-        technology, created = Technology.objects.get_or_create(
-            name=technology_name)
-        Technoproject.objects.create(
-            manager=manager,
-            project=project,
-            associates=associate,
-            technology=technology
-        )
+        technology_names = request.POST.getlist('technology')
+        for technology_name in technology_names:
+            technology, created = Technology.objects.get_or_create(
+                name=technology_name)
+            Technoproject.objects.create(
+                manager=manager,
+                project=project,
+                associates=associate,
+                technology=technology
+            )
         return redirect('get_technology', pk=associate.id)
     context = {'form': Techno, 'technology_data': technology_data}
     return render(request, 'technology/technology_add.html', context)

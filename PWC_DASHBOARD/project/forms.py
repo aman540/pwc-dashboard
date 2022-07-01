@@ -50,10 +50,8 @@ class ProjectStatusUpdateForm(ModelForm):
 #         fields = ("phase",)
 
 
-class Technologyforms(ModelForm):
-    class Meta:
-        model = Technoproject
-        fields = ("technology",)
+class TechnologyForm(forms.Form):
+    technology = forms.CharField(max_length=255, required=True)
 
 
 class PhaseDurationForm(ModelForm):
