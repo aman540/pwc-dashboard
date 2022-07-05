@@ -1,3 +1,6 @@
+
+
+
 <nav class="pcoded-navbar">
   <div class="navbar-wrapper">
     <div class="navbar-brand header-logo">
@@ -9,12 +12,12 @@
         <div class="b-bg2">
           <img
                   class="rounded-circle"
-                  style="width: 40px"
-                  src="/static/assets/images/user/avatar-2.jpg"
+                  style="width: 50px"
+                  src="/static/images/p.jpeg"
                   alt="activity-user"
                 />
         </div>
-        <span class="b-title">{{request.user.username|capfirst}}</span>
+        <span class="b-title">Pwc Dashboard</span>
       </a>
       <a class="mobile-menu" id="mobile-collapse" href="javascript:"
         ><span></span
@@ -82,7 +85,21 @@
           {% endif %}
         </ul>
 
-
+        <li
+        data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds"
+        class="nav-item pcoded-hasmenu"
+      >
+        <a href="javascript:" class="nav-link"
+          ><span class="pcoded-micon"><i class="feather icon-box"></i></span
+          ><span class="pcoded-mtext">Associates</span></a
+        >
+        <ul class="pcoded-submenu">
+          <li class="">
+            <a href="{%url 'associates-list'%}" class="">Associates List</a>
+          </li>
+          <li class=""><a href="{% url 'associates-create'%}" class="">Add Associates</a></li>     
+        </ul>
+      </li>
         
 
         <li class="nav-item pcoded-menu-caption">

@@ -1,3 +1,4 @@
+from turtle import color
 from django.forms import DateInput, TextInput
 from dataclasses import field
 from django.forms import ModelForm
@@ -20,17 +21,18 @@ class ProjectUpdateforms(ModelForm):
     class Meta:
         model = Project
         fields = ('title', 'client', 'description',
-                  'from_duration', 'to_duration', 'status',)
+                  'from_duration', 'to_duration', 'status', 'type')
 
         widgets = {
             'from_duration': DatePickerInput(),
             'to_duration': DatePickerInput(),
         }
 
-# class Projectforms(ModelForm):
-#     class Meta:
-#         model = Project
-#         fields = ('status',)
+
+class Projectforms(ModelForm):
+    class Meta:
+        model = Project
+        fields = ('type',)
 
 #         widgets = {
 #             'from_duration': DatePickerInput(),
@@ -68,3 +70,19 @@ class Associatesforms(ModelForm):
     class Meta:
         model = Associates
         fields = ("name", "email", "designation",)
+
+
+class AssignAssociatesforms(ModelForm):
+    class Meta:
+        model = Project_Associate
+        fields = ('associate',)
+
+
+class CreateAssociatesForm(ModelForm):
+
+    class Meta:
+        model = Associate
+        fields = ['name', 'email', 'designation', 'joindate', 'technology']
+        widgets = {
+            'joindate': DatePickerInput(),
+        }

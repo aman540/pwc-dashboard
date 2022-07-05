@@ -1,3 +1,4 @@
+from operator import mod
 from pyexpat import model
 from django.db import models
 from django.core.validators import RegexValidator
@@ -45,6 +46,18 @@ def get_status():
     return Status.objects.get(name="Green")
 
 
+TYPE_CHOICES = (
+    ("Erp", "Erp"),
+    ("aws", "aws"),
+    ("Azure", "Azure"),
+    ("salesforce", "salesforce"),
+    ("5", "5"),
+    ("6", "6"),
+    ("7", "7"),
+    ("8", "8"),
+)
+
+
 class Project(models.Model):
 
     title = models.CharField(max_length=200, null=False, blank=True)
@@ -52,6 +65,11 @@ class Project(models.Model):
     client = models.CharField(max_length=50, null=False, blank=True)
     from_duration = models.DateField(null=True, blank=True)
     to_duration = models.DateField(null=True, blank=True)
+    type = models.CharField(
+        max_length=20,
+        choices=TYPE_CHOICES,
+        null=True
+    )
     # phase = models.CharField(max_length=50, null=False, blank=True)
     # source=models.CharField(choices=SOURCE_CHOICE,max_length=100)
     organistation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
@@ -94,6 +112,31 @@ class Technology(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Associate(models.Model):
+
+    name = models.CharField(max_length=200, null=False, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    designation = models.CharField(max_length=100, null=False, blank=True)
+    joindate = models.DateField(null=True)
+    occupency = models.IntegerField(null=True, blank=True, default=0)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateField(auto_now=True, null=True)
+    technology = models.ManyToManyField(Technology)
+
+    def __str__(self):
+        return self.name
+
+
+class Project_Associate(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    associate = models.ForeignKey(Associate, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateField(auto_now=True, null=True)
+
+    def __str__(self):
+        return self.project.title + ":" + self.associate.name
 
 
 class Technoproject(models.Model):

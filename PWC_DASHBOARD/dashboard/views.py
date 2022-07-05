@@ -98,15 +98,24 @@ def index(request):
     countprojects = Project.objects.all().count()
     if request.user.is_organisor:
         # status start
-
         allmanager = Manager.objects.filter(
-            organistation=request.user.userprofile)
+            organistation=request.user.userprofile).order_by("-created")
         allproject = Project.objects.filter(
-            organistation=user.userprofile, manager__isnull=False).order_by("-created").order_by("-created")
+            organistation=user.userprofile, manager__isnull=False).order_by("-created")
+        type_erp = Project.objects.filter(
+            organistation=user.userprofile, manager__isnull=False, type="Erp").order_by("-created")
+        type_aws = Project.objects.filter(
+            organistation=user.userprofile, manager__isnull=False, type="aws").order_by("-created")
+        type_azure = Project.objects.filter(
+            organistation=user.userprofile, manager__isnull=False, type="Azure").order_by("-created")
+        type_salesforce = Project.objects.filter(
+            organistation=user.userprofile, manager__isnull=False, type="salesforce").order_by("-created")
+
         Associatesunder_every_project = Associates.objects.all().count()
     elif request.user.is_manager:
         o = Manager.objects.get(user=request.user)
-        allmanager = Manager.objects.filter(organistation=o.organistation)
+        allmanager = Manager.objects.filter(
+            organistation=o.organistation).order_by("-created")
 
         Associatesunder_every_project = Associates.objects.filter(
             manager=o).count()
@@ -114,10 +123,15 @@ def index(request):
             organistation=user.manager.organistation, manager__isnull=False).order_by("-created")
         # filter for agent that is logged in
         allproject = allproject.filter(manager__user=user).order_by("-created")
-
+        type_erp = allproject.filter(type="Erp").order_by("-created")
+        type_aws = allproject.filter(type="aws").order_by("-created")
+        type_azure = allproject.filter(type="Aws").order_by("-created")
+        type_salesforce = allproject.filter(
+            type="salesforce").order_by("-created")
+        print(type_erp)
     projectcount = allproject.count()
     context = {'co': countorganisers, 'cm': countmanagers,
-               'cp': countprojects, 'allproject': allproject, 'allmanager': allmanager, 'pc': projectcount, 'ta': Associatesunder_every_project}
+               'cp': countprojects, 'allproject': allproject, 'allmanager': allmanager, 'pc': projectcount, 'ta': Associatesunder_every_project, "type_erp": type_erp, "type_aws": type_aws, "type_salesforce": type_salesforce, "type_azure": type_azure}
 
     return render(request, 'home/index.html', context)
 
@@ -132,28 +146,39 @@ def create_project(request):
 
     # manager = request.user
     my_p = Manager.objects.get(user=request.user)
-    # form = Projectforms()
-    if request.method == "POST":
-        title = request.POST.get("title")
-        client = request.POST.get("client")
-        description = request.POST.get("description")
-        from_duration = request.POST.get("from_duration")
-        to_duration = request.POST.get("to_duration")
-        Project.objects.create(
-            manager=my_p,
-            organistation=my_p.organistation,
-            title=title,
-            client=client,
-            description=description,
-            from_duration=from_duration,
-            to_duration=to_duration,
+    project_form = Projectforms(request.POST or None)
+    # print(project_form.data)
+    # if request.method == "POST":
+    #     title = request.POST.get("title")
+    #     client = request.POST.get("client")
+    #     description = request.POST.get("description")
+    #     from_duration = request.POST.get("from_duration")
+    #     to_duration = request.POST.get("to_duration")
+    #     project = Project.objects.create(
+    #         manager=my_p,
+    #         organistation=my_p.organistation,
+    #         title=title,
+    #         client=client,
+    #         description=description,
+    #         from_duration=from_duration,
+    #         to_duration=to_duration,
+    #         type=type,
 
-        )
-        project = Project.objects.get(
-            title=title, client=client, description=description, from_duration=from_duration, to_duration=to_duration)
-        return redirect('create_associates', project.id)
+    #     )
+    if project_form.is_valid():
+        new_project = project_form.save(commit=False)
+        new_project.title = request.POST.get('title')
+        new_project.client = request.POST.get('client')
+        new_project.description = request.POST.get('description')
+        new_project.from_duration = request.POST.get('from_duration')
+        new_project.to_duration = request.POST.get('to_duration')
+        new_project.manager = my_p
+        new_project.organistation = my_p.organistation
+        new_project.save()
 
-    return render(request, 'home/projectcreate.html')
+        return redirect('create_associates', new_project.id)
+
+    return render(request, 'home/projectcreate.html', {'form': project_form})
 
 
 class ProjectListview(LoginRequiredMixin, ListView):
@@ -189,77 +214,71 @@ class ProjectListview(LoginRequiredMixin, ListView):
 @ login_required(login_url='login')
 def ProjectDetail(request, pk):
     project = Project.objects.get(id=pk)
-    associates = project.associates_set.all()
+
+    # associates = project.project_associates_set.all()
+    associate = Project_Associate.objects.filter(project=project)
     phasedurationofproject = project.phasedurationofproject_set.all()
-    context = {'project': project, "associates": associates,
-               'phasedurationofproject': phasedurationofproject}
+    a = set()
+    for i in phasedurationofproject:
+        delta = (i.to_date-i.from_date)
+        a.add((i.phase.name, int(delta.days)))
+    context = {'project': project, "associates": associate,
+               'phasedurationofproject': phasedurationofproject, 'a': a}
     return render(request, 'home/project_detail.html', context)
 
 # Associates
 
 
-@ login_required(login_url='login')
-def create_associates(request, pk):
-    user = request.user
-    manager = Manager.objects.get(user=user)
-    project = Project.objects.get(id=pk)
-    if request.method == 'POST':
-        emailget = request.POST.get('email')
-        nameget = request.POST.get('name')
-        new_associate = Associates.objects.create(
-            project=project, manager=manager, name=request.POST.get(
-                'name'),
-            email=request.POST.get('email'),
-            designation=request.POST.get('designation'))
-        # associates = Associates.objects.get(
-        #     name=nameget, email=emailget)
-        return redirect('add_technology', pk=new_associate.id)
+# @ login_required(login_url='login')
+# def create_associates(request, pk):
+#     user = request.user
+#     manager = Manager.objects.get(user=user)
+#     project = Project.objects.get(id=pk)
+#     if request.method == 'POST':
 
-    context = {}
-    return render(request, 'associates/associates_create.html', context)
+#         new_associate = Associates.objects.create(
+#             project=project, manager=manager, name=request.POST.get(
+#                 'name'),
+#             email=request.POST.get('email'),
+#             designation=request.POST.get('designation'))
+
+#         return redirect('add_technology', pk=new_associate.id)
+
+#     context = {}
+#     return render(request, 'associates/associates_create.html', context)
 
 
-@ login_required(login_url='login')
-def get_associates(request, pk):
-    project = Project.objects.get(id=pk)
-    e = Associates.objects.filter(
-        project=project)
-    # techno = e.technoproject_set.all()
-    context = {"e": e, "project": project, }
-    return render(request, 'associates/associates_data.html', context)
+# @ login_required(login_url='login')
+# def UpdateAssociates(request, pk):
+#     associates = Associates.objects.get(id=pk)
+#     project = associates.project
+#     form = Associatesforms(instance=associates)
+
+#     if request.user != associates.project.manager.user:
+#         return HttpResponse('Virus')
+#     if request.method == "POST":
+#         form = Associatesforms(
+#             request.POST, request.FILES, instance=associates)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('get_associates', pk=project.id)
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'associates/associates_update.html', context)
 
 
-@ login_required(login_url='login')
-def UpdateAssociates(request, pk):
-    associates = Associates.objects.get(id=pk)
-    project = associates.project
-    form = Associatesforms(instance=associates)
+# @ login_required(login_url='login')
+# def DeleteAssociates(request, pk):
+#     associate = Associates.objects.get(id=pk)
+#     project = Project.objects.get(associates=associate)
+#     if request.user != associate.manager.user:
+#         return HttpResponse('Virus')
 
-    if request.user != associates.project.manager.user:
-        return HttpResponse('Virus')
-    if request.method == "POST":
-        form = Associatesforms(
-            request.POST, request.FILES, instance=associates)
-        if form.is_valid():
-            form.save()
-            return redirect('get_associates', pk=project.id)
-    context = {
-        'form': form
-    }
-    return render(request, 'associates/associates_update.html', context)
-
-
-@ login_required(login_url='login')
-def DeleteAssociates(request, pk):
-    associate = Associates.objects.get(id=pk)
-    project = Project.objects.get(associates=associate)
-    if request.user != associate.manager.user:
-        return HttpResponse('Virus')
-
-    if request.method == 'POST':
-        associate.delete()
-        return redirect('get_associates', project.id)
-    return render(request, 'associates/delete.html', {'obj': associate})
+#     if request.method == 'POST':
+#         associate.delete()
+#         return redirect('get_associates', project.id)
+#     return render(request, 'associates/delete.html', {'obj': associate})
 
 
 @ login_required(login_url='login')
@@ -410,3 +429,103 @@ class ProjectDeleteView(OrganiserAndLoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("project-list")
+
+
+# project associate
+@ login_required(login_url='login')
+def get_associates(request, pk):
+    project = Project.objects.get(id=pk)
+    e = Project_Associate.objects.filter(
+        project=project)
+    # techno = e.technoproject_set.all()
+    context = {"e": e, "project": project, }
+    return render(request, 'project_associates/associates_data.html', context)
+
+
+@ login_required(login_url='login')
+def delete_project_associates(request, pk):
+    project_associate = Project_Associate.objects.get(id=pk)
+    project = project_associate.project
+    a = project_associate.associate
+    if request.method == 'POST':
+        b = Associate.objects.get(id=a.id)
+        b.occupency = b.occupency-1
+        b.save()
+        project_associate.delete()
+        return redirect('get_associates', pk=project.id)
+    return render(request, 'project_associates/delete.html', {'obj': project_associate})
+
+
+@ login_required(login_url='login')
+def assign_associates(request, pk):
+    project = Project.objects.get(id=pk)
+    associate_form = AssignAssociatesforms(request.POST or None)
+
+    if associate_form.is_valid():
+        a = associate_form.cleaned_data['associate']
+        b = Associate.objects.get(id=a.id)
+        b.occupency = b.occupency+1
+        b.save()
+
+        new_phase = associate_form.save(commit=False)  # Don't save it yet
+        new_phase.project = project
+        new_phase.save()  # Now save it
+        return redirect('get_associates', project.id)
+    # print(new_phase.data)
+    context = {'form': associate_form, }
+    return render(request, 'project_associates/assign_associate.html', context)
+
+# assocites
+
+
+@ login_required(login_url='login')
+def associates_list(request):
+    associate = Associate.objects.all()
+    context = {"associate": associate}
+    return render(request, 'associates/associates_list.html', context)
+
+
+@ login_required(login_url='login')
+def associates_create(request):
+    form = CreateAssociatesForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('associates-list')
+    context = {"form": form}
+    return render(request, 'associates/associates_create.html', context)
+
+
+@ login_required(login_url='login')
+def associates_detail(request, pk):
+    associate = Associate.objects.get(id=pk)
+    a = associate.project_associate_set.all()
+
+    context = {"associate": associate, "a": a}
+    return render(request, 'associates/associates_detail.html', context)
+
+
+@ login_required(login_url='login')
+def associates_delete(request, pk):
+    associate = Associate.objects.get(id=pk)
+    # if request.user.is_manager:
+    #     return HttpResponse('Virus')
+    if request.method == 'POST':
+        associate.delete()
+        return redirect('associates-list')
+    return render(request, 'associates/delete.html', {'obj': associate})
+
+
+@ login_required(login_url='login')
+def associates_update(request, pk):
+    associates = Associate.objects.get(id=pk)
+    form = CreateAssociatesForm(instance=associates)
+    # if request.user.is_manager:
+    #     return HttpResponse('Virus')
+    if request.method == "POST":
+        form = Associatesforms(
+            request.POST, request.FILES, instance=associates)
+        if form.is_valid():
+            form.save()
+            return redirect('associates-list')
+    context = {'form': form}
+    return render(request, 'associates/associates_update.html', context)

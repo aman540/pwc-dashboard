@@ -1,0 +1,90 @@
+{% extends "layouts/base.html" %} {% block title %} Dashboard {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} 
+{% block content %}
+<div class="container">
+<div class="page-header">
+  <div class="page-block">
+    <div class="row align-items-center">
+      <div class="col-md-12">
+        <div class="page-header-title">
+          <h5 class="m-b-10">Associates List</h5>
+        </div>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/"><i class="feather icon-home"></i></a>
+          </li>
+          
+          <li class="breadcrumb-item">
+            <a href="javascript:">Associates</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+
+<div class="card Recent-Users">
+    <div class="card-header">
+      <h5>All Associates</h5>
+    </div>
+    <div class="scroll">
+      <div class="card-block px-0 py-3">
+        <div class="table-responsive">
+          <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <td>Created</td>
+                    <td>Name</td>
+                    
+                    <td>Designation</td>
+                    <td >Join Date</td>
+                    <td>Projects</td>
+                    <td >Technology</td>
+                    <td style="color: rgb(216, 20, 20)">Action</td>
+                  </tr>
+                </thead>
+            <tbody>
+                {% for i in associate %}
+              <tr class="unread">
+                <td>
+                   
+                        <h6 class="text-muted">{{i.created|date:"M Y"}}
+                        </h6>
+                      </td>
+                </td>
+                <td>
+                  <h6 class="mb-1"><a href="{% url 'associates-detail' i.id%}">{{i.name}}</a></h6>
+                  <p class="m-0">{{i.email}}</p>
+                </td>
+                <td>{{i.designation}}</td>
+                <td >{{i.joindate}}</td>
+                <td >{{i.occupency}}</td>
+                <td>{% for j in i.technology.all %}{{ j }}<br/>{% endfor %}
+                </td>
+                 
+                <td>
+                  <a
+                    href="{% url 'associates-update' i.id %}"
+                    class="label theme-bg2 text-white f-12"
+                    >Update</a
+                  >
+                  <a
+                  href="{% url 'associates-delete' i.id %}"
+                  class="label theme-bg text-white f-12"
+                  >Delete</a
+                > 
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content%}
+{% block javascripts %}{% endblock javascripts %}

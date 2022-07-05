@@ -28,12 +28,12 @@
                 <img
                   class="rounded-circle"
                   style="width: 40px"
-                  src="/static/images/pwc.svg"
+                  src="/static/assets/images/widget/dashborad-5.png"
                   alt="activity-user"
                 />
               </td>
               <td>
-                <h6 class="mb-1">{{i.title}}</h6>
+                <h6 class="mb-1"><a href="{% url 'project-detail' i.id%}">{{i.title}}</a></h6>
                 <p class="m-0">{{i.client}}</p>
               </td>
               <td>

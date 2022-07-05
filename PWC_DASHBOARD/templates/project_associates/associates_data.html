@@ -5,7 +5,7 @@
  {% block content %}
 <style>
   .container {
-    margin-top: 60px;
+    margin-top: 10px;
   }
 </style>
 <div class="container">
@@ -36,9 +36,9 @@
     </div>
     <div class="col-md-3 ">
   {% if request.user.is_manager %}
-  <a  class="label theme-bg2 text-white f-12" href="{% url  'create_associates' project.id%}"
+  <a  class="label theme-bg2 text-white f-12" href="{% url  'assign_associates' project.id%}"
     >
-      Add Associate
+      Assign Associate
     </a
   >
   {%endif%}
@@ -52,6 +52,7 @@
           <th scope="col">Email</th>
           <th scope="col">Designation</th>
           <th scope="col">Technology</th>
+         
           {% if request.user.is_manager %}
           <th>Action</th>
           {%endif%}
@@ -60,28 +61,29 @@
       <tbody>
         {% for i in e %}
         <tr>
-          <td>{{i.name}}</td>
-          <td>{{i.email}}</td>
-          <td>{{i.designation}}</td>
-          <td><a
-            href="{% url 'get_technology' i.id%}"
-            class="label theme-bg2 text-white f-12"
-            >view</a
-          ></td>
-          {% if request.user.is_manager %}
+          <td>{{i.associate.name}}</td>
+          <td>{{i.associate.email}}</td>
+          <td>{{i.associate.designation}}</td>
+
+          <td> 
+            {% for j in i.associate.technology.all %}{{ j }}<br/>{% endfor %}
+            </td>
+           
+          
         <td >
-          <a
-          href="{% url 'update_associates' i.id%}"
-          class="label theme-bg2 text-white f-12"
-          >Update</a
-        ><a
-          href="{% url 'associates-delete' i.id %}"
+         
+         {% if request.user.is_manager %}
+         
+        
+          
+        <a
+          href="{% url 'project-associates-delete' i.id %}"
           class="label theme-bg text-white f-12"
           >Delete</a
-        >
-         
+        > 
+        {% endif %}
         </td>
-        {%endif%}
+        
       </tr>
         {% endfor%}
       </tbody>

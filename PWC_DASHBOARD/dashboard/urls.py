@@ -15,13 +15,25 @@ urlpatterns = [
     path('projectdelete/<str:pk>',
          views.ProjectDeleteView.as_view(), name="project-delete"),
     # associate
-    path('associatescreate/<str:pk>',
-         views.create_associates, name='create_associates'),
+    #     path('associatescreate/<str:pk>',
+    #          views.create_associates, name='create_associates'),
     path('associatesget/<str:pk>', views.get_associates, name='get_associates'),
+
+
+
+    path('assign_associates/<str:pk>',
+         views.assign_associates, name='assign_associates'),
+    path('projectassociatesdelete/<str:pk>',
+         views.delete_project_associates, name="project-associates-delete"),
+    path('associates_list/', views.associates_list, name='associates-list'),
+    path('associatesdetail/<str:pk>',
+         views.associates_detail, name="associates-detail"),
+    path('associates_create/', views.associates_create, name='associates-create'),
     path('associatesupdate/<str:pk>',
-         views.UpdateAssociates, name='update_associates'),
+         views.associates_update, name='associates-update'),
+
     path('associatesdelete/<str:pk>',
-         views.DeleteAssociates, name="associates-delete"),
+         views.associates_delete, name="associates-delete"),
     # technology
 
     path('technologyadd/<str:pk>', views.add_Technology, name='add_technology'),

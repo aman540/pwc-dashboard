@@ -342,6 +342,9 @@
           </div> -->
           <!--[social-media section] end-->
           <!-- [ rating list ] starts-->
+          <div class="col-xl-8 col-md-12 m-b-30">
+            {% include 'home/allmanager_list_component.html' %}
+          </div>
           <div class="col-xl-4 col-md-12 m-b-30">
             
               <div class="card">
@@ -357,18 +360,18 @@
             </div>
           </div>
           <!-- [ rating list ] end-->
-          <!-- <div class="col-xl-8 col-md-12 m-b-30">
+          <div class="col-xl-8 col-md-12 m-b-30"> -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
                 <a
                   class="nav-link"
                   id="home-tab"
                   data-toggle="tab"
-                  href="#home"
+                  href="#erp"
                   role="tab"
                   aria-controls="home"
                   aria-selected="false"
-                  >Today</a
+                  >Erp</a
                 >
               </li>
               <li class="nav-item">
@@ -376,11 +379,11 @@
                   class="nav-link active show"
                   id="profile-tab"
                   data-toggle="tab"
-                  href="#profile"
+                  href="#aws"
                   role="tab"
                   aria-controls="profile"
                   aria-selected="true"
-                  >This Week</a
+                  >Aws</a
                 >
               </li>
               <li class="nav-item">
@@ -388,7 +391,31 @@
                   class="nav-link"
                   id="contact-tab"
                   data-toggle="tab"
-                  href="#contact"
+                  href="#azure"
+                  role="tab"
+                  aria-controls="contact"
+                  aria-selected="false"
+                  >Azure</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="contact-tab"
+                  data-toggle="tab"
+                  href="#salesforce"
+                  role="tab"
+                  aria-controls="contact"
+                  aria-selected="false"
+                  >Salesforce</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="contact-tab"
+                  data-toggle="tab"
+                  href="#all"
                   role="tab"
                   aria-controls="contact"
                   aria-selected="false"
@@ -399,359 +426,257 @@
             <div class="tab-content" id="myTabContent">
               <div
                 class="tab-pane fade"
-                id="home"
+                id="erp"
                 role="tabpanel"
                 aria-labelledby="home-tab"
               >
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>User</th>
-                      <th>Activity</th>
-                      <th>Time</th>
-                      <th>Status</th>
+                      <th>Title</th>
+                      <th>Client</th>
+                      <th>Created date</th>
+                     
+                      <th>Action</th>
                       <th class="text-right"></th>
                     </tr>
                   </thead>
                   <tbody>
+                    
+                    {% for i in type_erp %}
+                      
+                    
+                      
                     <tr>
                       <td>
                         <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                            alt="activity-user"
-                          />Ida Jorgensen
+                          {{i.title}}
                         </h6>
                       </td>
                       <td>
-                        <h6 class="m-0">The quick brown fox</h6>
+                        <h6 class="m-0">{{ i.client}}</h6>
                       </td>
                       <td>
-                        <h6 class="m-0">3:28 PM</h6>
+                        <h6 class="m-0">{{i.created|date:"M Y"}}</h6>
                       </td>
+                      
                       <td>
-                        <h6 class="m-0 text-c-green">Done</h6>
+                        <h6 class="m-0 text-c-green"> <a
+                          href="{% url 'project-detail' i.id%}"
+                          class="label theme-bg2 text-white f-12"
+                          >Detail</a
+                        ></h6>
                       </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-green f-10"></i>
-                      </td>
+                     
                     </tr>
-
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-2.jpg"
-                            alt="activity-user"
-                          />Albert Andersen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">Jumps over the lazy</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">2:37 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-red">Missed</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-red f-10"></i>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-3.jpg"
-                            alt="activity-user"
-                          />Silje Larsen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">Dog the quick brown</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">10:23 AM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-purple">Delayed</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-purple f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                            alt="activity-user"
-                          />Ida Jorgensen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">The quick brown fox</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">4:28 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-green">Done</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-green f-10"></i>
-                      </td>
-                    </tr>
+                    {% endfor %}
+                   
                   </tbody>
                 </table>
               </div>
               <div
                 class="tab-pane fade active show"
-                id="profile"
+                id="aws"
                 role="tabpanel"
                 aria-labelledby="profile-tab"
               >
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>User</th>
-                      <th>Activity</th>
-                      <th>Time</th>
-                      <th>Status</th>
-                      <th class="text-right"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-2.jpg"
-                            alt="activity-user"
-                          />Albert Andersen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">Jumps over the lazy</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">2:37 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-red">Missed</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-red f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                            alt="activity-user"
-                          />Ida Jorgensen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">The quick brown fox</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">3:28 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-green">Done</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-green f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                            alt="activity-user"
-                          />Ida Jorgensen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">The quick brown fox</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">4:28 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-green">Done</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-green f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-3.jpg"
-                            alt="activity-user"
-                          />Silje Larsen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">Dog the quick brown</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">10:23 AM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-purple">Delayed</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-purple f-10"></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Client</th>
+                    <th>Created date</th>
+                   
+                    <th>Action</th>
+                    <th class="text-right"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {% for i in type_aws %}
+                    
+                  
+                    
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                        {{i.title}}
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{ i.client}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{i.created|date:"M Y"}}</h6>
+                    </td>
+                   
+                    <td>
+                      <h6 class="m-0 text-c-green"> <a
+                        href="{% url 'project-detail' i.id%}"
+                        class="label theme-bg2 text-white f-12"
+                        >Detail</a
+                      ></h6>
+                    </td>
+                   
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
               </div>
               <div
                 class="tab-pane fade"
-                id="contact"
+                id="azure"
                 role="tabpanel"
                 aria-labelledby="contact-tab"
               >
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>User</th>
-                      <th>Activity</th>
-                      <th>Time</th>
-                      <th>Status</th>
-                      <th class="text-right"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-3.jpg"
-                            alt="activity-user"
-                          />Silje Larsen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">Dog the quick brown</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">10:23 AM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-purple">Delayed</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-purple f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                            alt="activity-user"
-                          />Ida Jorgensen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">The quick brown fox</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">3:28 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-green">Done</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-green f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-2.jpg"
-                            alt="activity-user"
-                          />Albert Andersen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">Jumps over the lazy</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">2:37 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-red">Missed</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-red f-10"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h6 class="m-0">
-                          <img
-                            class="rounded-circle m-r-10"
-                            style="width: 40px"
-                            src="{{ ASSETS_ROOT }}/images/user/avatar-1.jpg"
-                            alt="activity-user"
-                          />Ida Jorgensen
-                        </h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">The quick brown fox</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0">4:28 PM</h6>
-                      </td>
-                      <td>
-                        <h6 class="m-0 text-c-green">Done</h6>
-                      </td>
-                      <td class="text-right">
-                        <i class="fas fa-circle text-c-green f-10"></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Client</th>
+                    <th>Created date</th>
+                   
+                    <th>Action</th>
+                    <th class="text-right"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {% for i in type_azure %}
+                    
+                  
+                    
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                        {{i.title}}
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{ i.client}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{i.created|date:"M Y"}}</h6>
+                    </td>
+                   
+                    <td>
+                      <h6 class="m-0 text-c-green"> <a
+                        href="{% url 'project-detail' i.id%}"
+                        class="label theme-bg2 text-white f-12"
+                        >Detail</a
+                      ></h6>
+                    </td>
+                   
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="salesforce"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Client</th>
+                    <th>Created date</th>
+                   
+                    <th>Action</th>
+                    <th class="text-right"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {% for i in type_salesforce %}
+                    
+                  
+                    
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                        {{i.title}}
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{ i.client}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{i.created|date:"M Y"}}</h6>
+                    </td>
+                    
+                    <td>
+                      <h6 class="m-0 text-c-green"> <a
+                        href="{% url 'project-detail' i.id%}"
+                        class="label theme-bg2 text-white f-12"
+                        >Detail</a
+                      ></h6>
+                    </td>
+                   
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="all"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Client</th>
+                    <th>Created date</th>
+                   
+                    <th>Action</th>
+                    <th class="text-right"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {% for i in allproject %}
+                    
+                  
+                    
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                        {{i.title}}
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{ i.client}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{i.created|date:"M Y"}}</h6>
+                    </td>
+                   
+                    <td>
+                      <h6 class="m-0 text-c-green"> <a
+                        href="{% url 'project-detail' i.id%}"
+                        class="label theme-bg2 text-white f-12"
+                        >Detail</a
+                      ></h6>
+                    </td>
+                   
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
               </div>
             </div>
-          </div> -->
-          <div class="col-xl-8 col-md-12 m-b-30">
-            {% include 'home/allmanager_list_component.html' %}
-          </div>
+          </div> 
+         
          
          
        

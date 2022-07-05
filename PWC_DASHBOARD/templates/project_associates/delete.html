@@ -1,0 +1,53 @@
+
+
+
+     {% extends "layouts/base-fullscreen.html" %}
+
+     {% block title %} Associates Delete{% endblock %} 
+     
+     <!-- Specific CSS goes HERE -->
+     {% block stylesheets %}{% endblock stylesheets %}
+     
+     {% block content %}
+     <style>
+     #id_email {
+      width: 400px;
+      height: 40px;
+      border-color:#1de9b6;
+   }
+</style>
+     <div class="auth-wrapper">
+         <div class="auth-content">
+             <div class="auth-bg">
+                 <span class="r"></span>
+                 <span class="r s"></span>
+                 <span class="r s"></span>
+                 <span class="r"></span>
+             </div>
+             <div class="card">
+                 <div class="card-body text-center">
+                     <div class="mb-4">
+                         <i class="feather icon-mail auth-icon"></i>
+                     </div>
+
+                     <h5 class="mb-4">Do you want to delete the associate -
+                      <br> <small style="color:red;">{{obj.associate.name|capfirst}} </small>?</h5>
+                     <form class="p-0" id="contact" method="POST">
+                      {% csrf_token%}
+                      {{form.as_p}}
+                     <p class="mb-0 text-muted"><button class="label theme-bg text-white f-12">Delete</button></p>
+                     </form>
+                     <p class="mb-0 text-muted"><a class="label theme-bg2 text-white f-12" href="{{request.META.HTTP_REFERER}}">Cancle</a> </p>
+                 </div>
+             </div>
+         </div>
+     </div>
+     
+     {% endblock content %}
+     
+     <!-- Specific Page JS goes HERE  -->
+     {% block javascripts %}{% endblock javascripts %}
+     
+
+
+  
