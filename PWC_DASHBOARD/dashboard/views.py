@@ -68,7 +68,7 @@ def graph(request):
     t_project_associates = set()
     t_project_duration = set()
     for i in allproject:
-        b = Associates.objects.filter(project=i).count()
+        b = Project_Associate.objects.filter(project=i).count()
         t_project_associates.add((i, b))
         if i.from_duration != None:
             a = i.from_duration
