@@ -68,8 +68,8 @@ class PhaseDurationForm(ModelForm):
 
 class Associatesforms(ModelForm):
     class Meta:
-        model = Associates
-        fields = ("name", "email", "designation",)
+        model = Associate
+        fields = ("name", "email", "designation", "technology",)
 
 
 class AssignAssociatesforms(ModelForm):
